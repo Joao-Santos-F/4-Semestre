@@ -1,72 +1,84 @@
-// imports
-import editIcon from "./assets/tabler_edit.svg";
-import trashIcon from "./assets/mdi_trash.svg";
-import "./App.css";
-import { useState } from "react";
+import { useState } from 'react'
+import './App.css'
+import VectorIcon2 from './assets/tabler_edit.svg'
+import VectorIcon from './assets/mdi_trash.svg'
 
 function App() {
-  // states e variáveis
+  const [tarefas, setTarefas] = useState([
+    { id: 1, texto: 'Estudar componentes em React' },
+    { id: 2, texto: 'Estudar propriedades em React' },
+    { id: 3, texto: 'Estudar estados em React' },
+    { id: 4, texto: 'Criar meu app de ToDo List com React!' },
+    { id: 5, texto: 'Fazer revisão para React Native' },
+  ])
+  const [novaTarefa, setNovaTarefa] = useState('')
 
-  const [tasklist, setTasklist] = useState([
-    { id: 1, descricao: "Revisar HTML Semântico" },
-    { id: 2, descricao: "Revisar ReactJS" },
-    { id: 3, descricao: "Revisar ReactJS" },
-    { id: 4, descricao: "Estudar React Native" }
-  ]);
+  function adicionarTarefa() {
+    if (novaTarefa.trim() === '') return
+    setTarefas([...tarefas, { id: Date.now(), texto: novaTarefa }])
+    setNovaTarefa('')
+  }
 
-  // funções e effects
+  function excluirTarefa(id) {
+    setTarefas(tarefas.filter((tarefa) => tarefa.id !== id))
+  }
+
+  function editarTarefa(id) {
+    const novoTexto = prompt('Editar tarefa:')
+    if (!novoTexto) return
+    setTarefas(
+      tarefas.map((tarefa) =>
+        tarefa.id === id ? { ...tarefa, texto: novoTexto } : tarefa
+      )
+    )
+  }
 
   return (
     <>
       <header className="header-section">
-        <h1 className="header-section__title">React List</h1>
+        <h1 className="header-section__title">Todo List</h1>
       </header>
 
       <main className="body-section">
-        <form className="cad-task">
+        <form className="cad-task" onSubmit={(e) => e.preventDefault()}>
           <input
+            className="card-task__entry"
             type="text"
-            className="cad-task__entry"
             placeholder="Adicione uma tarefa"
+            value={novaTarefa}
+            onChange={(e) => setNovaTarefa(e.target.value)}
           />
-          <button className="cad-task__btn-confirm">Adicionar</button>
+          <button className="card-task__btn-confirm" onClick={adicionarTarefa}>
+            Adicionar
+          </button>
         </form>
 
         <section className="cardlist">
-          {tasklist.map((task) => {
-            return (
-              <article className="cardtask" key={task.id}>
-                <p className="cardtask__task-text">
-                  {task.descricao}
-                </p>
-
-                <div className="cardtask__icon-box">
-                  <div className="cardlist__icon">
-                    <img
-                      src={editIcon}
-                      alt="Imagem de uma caneta - ação editar tarefa"
-                    />
-                  </div>
-                  <div className="cardlist__icon">
-                    <img
-                      src={trashIcon}
-                      alt="Imagem de uma lixeira - ação excluir tarefa"
-                    />
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+          {tarefas.map((tarefa) => (
+            <article className="cardtask" key={tarefa.id}>
+              <p>{tarefa.texto}</p>
+              <div className="cardtask__actions">
+                <button
+                  className="cardtask__btn cardtask__btn--edit"
+                  onClick={() => editarTarefa(tarefa.id)}>
+                  <img src={VectorIcon2} alt="Editar" />
+                </button>
+                <button
+                  className="cardtask__btn cardtask__btn--delete"
+                  onClick={() => excluirTarefa(tarefa.id)}>
+                  <img src={VectorIcon} alt="Excluir" />
+                </button>
+              </div>
+            </article>
+          ))}
         </section>
       </main>
 
-      <footer className="footer-section">
-        <p className="footer-section__right-text">
-          2026 React List - Todos os direitos reservados
-        </p>
+      <footer className="footer-list">
+        <p className="footer-list__right-text">2026 React List - todos os direitos reservados</p>
       </footer>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

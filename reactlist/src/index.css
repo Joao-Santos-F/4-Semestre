@@ -1,11 +1,12 @@
-/* Reset CSS */
-* {
+*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-body {
-  background-color: #1D2135;
-  color: #fff;
+
+body{
+  background-color: rgb(2, 6, 14);
+  color: aliceblue;
   font-family: 'Courier New', Courier, monospace;
+
 }
