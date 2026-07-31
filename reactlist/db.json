@@ -1,0 +1,17 @@
+{
+  "taskpoint": [
+    {
+      "id": "1",
+      "descricao": "Revisar ReactJS"
+    },
+    {
+      "descricao": "Revisar HTML",
+      "id": "HU28-NtLTn8"
+    },
+    {
+      "descricao": "Revisar CSS",
+      "id": "BUGaFCK4x90"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
